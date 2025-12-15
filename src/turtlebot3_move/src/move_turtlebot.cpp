@@ -45,7 +45,7 @@ public:
     RCLCPP_INFO(this->get_logger(), "SelfDrive Node initialized for stable moving avoidance.");
   }
 
-  // 전방 60도(좌우 30도) 범위의 최소 유효 거리를 계산합니다.
+  // 전방 약 30도 범위(좌우 약 15도)의 최소 유효 거리를 계산합니다.
   double get_front_min_range(const std::vector<float>& ranges)
   {
       if (ranges.empty()) return 100.0; 
@@ -53,7 +53,7 @@ public:
       double min_val = 100.0;
       int n = ranges.size();
       
-      // 전방 60도 범위: 330도 (idx 330) ~ 30도 (idx 30)
+      // 전방 약 ±15도 범위 (대략 idx 345 ~ 15)에 대한 거리 탐색
       for (int i = 0; i <= 15; ++i) { 
           int right_idx = (n - i) % n; 
           int left_idx = i % n;
@@ -80,7 +80,7 @@ public:
     int n = scan->ranges.size();
     
     // LiDAR 인덱스 튜닝 지점:
-    // 터틀봇3는 보통 0도가 정면, 90도가 좌측, 270도가 우측입니다.
+    // 터틀봇3는 보통 0도가 정면, 40도가 좌측, 320도가 우측입니다.
     const int LEFT_IDX = 40;
     const int RIGHT_IDX = 320;
     
